@@ -1,6 +1,7 @@
 Nav: [Home] [Resume]
 
 List of projects and descriptions:
+
 Responsive Landing Page: This was a project I did in my CSET class in college. I needed to re-create a webpage by practicing CSS and responsive design. 
 
 Resume: I created a resume in HTML and styled it using CSS. This was my first HTML and CSS project. I enjoyed this project because it made me think about creativity and design for websites.
