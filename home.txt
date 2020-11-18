@@ -2,10 +2,11 @@ Michael Baker's Portfolio
 
 [Image of myself]
 
-About me: age: 27, from: State College, PA, career: Computer Software Engineering Technology, goal: Game Development.
+About me: Age: 27, From: State College, PA, Career: Computer Software Engineering Technology, Goal: Game Development.
 
 I started out with 0 experience in Computer Software but I am determined to pursue my goal to becoming a video game developer. It was my passion for video games that inspired me to pursue this goal and choose a career in Computer Software.
 
+Links to other pages:
 [Resume] [Projects]
 
 Contact Info: michaelbaker117@gmail.com, (814)574-2546
