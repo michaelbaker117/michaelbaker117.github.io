@@ -6,4 +6,6 @@ About me: age: 27, from: State College, PA, career: Computer Software Engineerin
 
 I started out with 0 experience in Computer Software but I am determined to pursue my goal to becoming a video game developer. It was my passion for video games that inspired me to pursue this goal and choose a career in Computer Software.
 
+[Resume] [Projects]
+
 Contact Info: michaelbaker117@gmail.com, (814)574-2546

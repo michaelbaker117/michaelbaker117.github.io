@@ -1,7 +1,5 @@
 Nav: [Home] [Projects]
 
-Contact Info: michaelbaker117@gmail.com, (814)574-2546
-
 Work History:
 My My Chicken, January 2017 - January 2020
 Closed Down
@@ -40,3 +38,5 @@ GED Graduate
 State College Area High School, 2013
 High school courses: Accounting 1 & 2, Forensic Accounting, Stocks & Investments 1
 State College, PA 16801
+
+Contact Info: michaelbaker117@gmail.com, (814)574-2546
