@@ -1,0 +1,10 @@
+Nav: [Home] [Resume]
+
+List of projects and descriptions:
+Choose Your Own Adventure Game
+Responsive Landing Page
+Resume
+Tic-Tac-Toe
+
+[Github account]
+https://github.com/michaelbaker117
