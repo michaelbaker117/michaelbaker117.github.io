@@ -8,11 +8,13 @@
   display: flex;
   flex-direction: column;
 }
-
+/*Main Content*/
 .mainHome {
   display: flex;
   justify-content: space-around;
+  margin-top: 5px;
 }
+/*About Me*/
 .aboutMe {
   display: flex;
   flex-direction: column;
@@ -20,7 +22,7 @@
   justify-content: center;
   width: 50%;
 }
-
+/*Links to othe Pages*/
 .linkPages {
   align-self: center;
   display: flex;
@@ -32,16 +34,16 @@
 
 /*Resume Page*/
 #resume {
-  background-color: rgba(255, 238, 0, 0.233);
+  background-color: aliceblue;
 }
-
+/*Header*/
 .resumeHeader {
   align-items: center;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-
+/*Main Contnet*/
 .mainResume {
   align-self: center;
   display: flex;
@@ -54,63 +56,80 @@
 #projects {
   background-color: aliceblue;
 }
-
+/*Header*/
 .projectsHeader {
   align-items: center;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-
+/*Main Content*/
 .mainProjects {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-/*.project1 {
+/*Responsive Landing Page*/
+.project1 {
   align-items: center;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 100%;
+  margin-top: 5px;
 }
+/*Resume Project*/
 .project2 {
   align-items: center;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 100%;
+  margin-top: 5px;
 }
+/*Tic-Tac-Toe Project*/
 .project3 {
   align-items: center;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 100%;
-}*/
-
+  margin-top: 5px;
+}
+/*Project Description*/
+.text {
+  width: 70%;
+}
+/*Github Account*/
+section {
+  text-align: center;
+}
 /*General*/
 a {
   color: blue;
   text-decoration: none;
 }
+
 a:hover {
   background-color: white;
   height: 40%;
 }
-img {
-  height: 20%;
+footer {
+  margin-top: 50px;
+  text-align: center;
 }
+
+header {
+  border-bottom-style: solid;
+}
+
+img {
+  border-style: solid;
+  height: 20%;
+  width: 20%;
+}
+
 nav {
   display: flex;
   font-size: 20pt;
   justify-content: space-around;
   width: 50%;
 }
+
 ul {
   list-style: none;
-}
-footer {
-  margin-top: 50px;
-  text-align: center;
 }
