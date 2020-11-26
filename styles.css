@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
+/*Home Page*/
+#home {
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainHome {
+  display: flex;
+  justify-content: space-around;
+}
+.aboutMe {
+  display: flex;
+  flex-direction: column;
+  font-size: 14pt;
+  justify-content: center;
+  width: 50%;
+}
+
+.linkPages {
+  align-self: center;
+  display: flex;
+  font-size: 24pt;
+  justify-content: space-around;
+  margin-top: 50px;
+  width: 40%;
+}
+
+/*Resume Page*/
+#resume {
+  background-color: rgba(255, 238, 0, 0.233);
+}
+
+.resumeHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mainResume {
+  align-self: center;
+  display: flex;
+  font-size: 14pt;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/*Projects Page*/
+#projects {
+  background-color: aliceblue;
+}
+
+.projectsHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mainProjects {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/*.project1 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.project2 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.project3 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}*/
+
+/*General*/
+a {
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  background-color: white;
+  height: 40%;
+}
+img {
+  height: 20%;
+}
+nav {
+  display: flex;
+  font-size: 20pt;
+  justify-content: space-around;
+  width: 50%;
+}
+ul {
+  list-style: none;
+}
+footer {
+  margin-top: 50px;
+  text-align: center;
+}
