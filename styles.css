@@ -69,27 +69,14 @@
   flex-direction: column;
   width: 100%;
 }
-/*Responsive Landing Page*/
-.project1 {
+/*List of Projects*/
+.project {
   align-items: center;
   display: flex;
   justify-content: center;
   margin-top: 5px;
 }
-/*Resume Project*/
-.project2 {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-}
-/*Tic-Tac-Toe Project*/
-.project3 {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-}
+
 /*Project Description*/
 .text {
   font-size: 14pt;
