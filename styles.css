@@ -69,8 +69,30 @@
   flex-direction: column;
   width: 100%;
 }
-/*List of Projects*/
-.project {
+
+/*Responsive Landing Page*/
+.project1 {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+/*Resume Project*/
+.project2 {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+/*Tic-Tac-Toe Project*/
+.project3 {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+/*Unity3D Projects*/
+.unity3D {
   align-items: center;
   display: flex;
   justify-content: center;
