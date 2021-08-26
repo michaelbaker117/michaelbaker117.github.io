@@ -70,22 +70,29 @@
   width: 100%;
 }
 
-/*Responsive Landing Page*/
+/*Bulldog Pizza*/
 .project1 {
   align-items: center;
   display: flex;
   justify-content: center;
   margin-top: 5px;
 }
-/*Resume Project*/
+/*Responsive Landing Page*/
 .project2 {
   align-items: center;
   display: flex;
   justify-content: center;
   margin-top: 5px;
 }
-/*Tic-Tac-Toe Project*/
+/*Resume Project*/
 .project3 {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+/*Tic-Tac-Toe Project*/
+.project4 {
   align-items: center;
   display: flex;
   justify-content: center;
