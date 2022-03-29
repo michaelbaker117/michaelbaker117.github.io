@@ -1,84 +1,111 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=0"/>
-    <title>Projects</title>
-    <link rel="stylesheet" type="text/css" href="styles.css"/>
-  </head>
-  <body id="projects">
-
-    <header class="projectsHeader">
-      <h1>Michael Baker's Projects</h1>
-      <nav>
-        <a href="https://michaelbaker117.github.io/">Home</a>
-        <a href="resume.html">Resume</a>
-      </nav>
-    </header>
-
-    <main class="mainProjects">
-      <h2>Unity3D Prototype Projects</h2>
-      <div class="unity3D">
-        <div class="text">
-          <h2><a href="https://play.unity.com/mg/other/webgl-builds-99901">Click & Destroy</a></h2>
-          <h2><a href="https://play.unity.com/mg/other/webgl-builds-72155">Floor is Lava</a></h2>
-          <h2><a href="https://play.unity.com/mg/other/webgl-builds-72563">Intro to 2D</a></h2>
+<html class="h-full bg-gray-50" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <title>Projects</title>
+</head>
+<body>
+    <div class="min-h-full">
+        <header class="bg-blue-900 shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold text-white">Michael Baker's Projects</h1>
+            </div>
+        </header>
+        <div class="pt-20 flex justify-center items-baseline space-x-4 text-white">
+            <a class="rounded bg-blue-900 hover:bg-gray-600 text-3xl" href="index.html">Home</a>
+            <a class="rounded bg-blue-900 hover:bg-gray-600 text-3xl" href="resume.html">My Resume</a>
         </div>
-      </div>
+        <main class="container my-24 px-6 mx-auto">
+            <section class="mb-32 text-white">
+              <div class="flex flex-col items-center">
 
-      <h2>Web Development Projects</h2>
-       <div class="project1">
-        <img src="images/bulldog-pizza.png" alt="Image-Bulldog Pizza"/>
-        <div class="text">
-          <h2><a href="https://cset-project.herokuapp.com/">Bulldog Pizza Project:</a></h2>
-            <p>My team and I created a prototype website for a pizza shop. We included the ability to
-              register/login customers or employees. Stored user information and pizza orders in a database. I designed the homepage, register and login pages.</p>
-          <a href="https://github.com/BenBowersJr/SoftwareProject">Code</a>
+
+                <ol class="relative py-20 border-l border-gray-200 dark:border-gray-700">
+                    <li class="mb-10 ml-6">
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Contact</h3>
+                        <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://www.linkedin.com/in/michael-baker-39a756223">Linkedin Profile</a>
+
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">GitHub</h3>
+                        <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://github.com/michaelbaker117">https://github.com/michaelbaker117</a>
+
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Unity Profile</h3>
+                        <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://learn.unity.com/u/60c6e6c8edbc2a0020c59ca0?tab=profile">http://learn.unity.com</a>
+                    </li>
+
+                    <li class="mb-10 ml-6">
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Unity Prototype Projects</h3>
+                        <ul>
+                            <li><a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://play.unity.com/mg/other/webgl-builds-99901">Click & Destroy</a></li>
+                            <li><a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://play.unity.com/mg/other/webgl-builds-72155">Floor is Lava</a></li>
+                            <li><a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://play.unity.com/mg/other/webgl-builds-72563">Intro to 2D</a></li>
+                        </ul>
+                    </li>
+    
+                    <li class="mb-10 ml-6">
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Web Development Projects</h3>
+                            <ul>
+                                <div>
+                                    <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://cset-project.herokuapp.com/">Bulldog Pizza Project</a>
+                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">My team and I created a prototype website for a pizza shop. We included the ability to
+                                      register/login customers or employees. Stored user information and pizza orders in a database. I designed the homepage, register and login pages. 
+                                    <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://github.com/BenBowersJr/SoftwareProject">GitHub code</a>
+                                    </p>
+                                </div>
+                                <img class="grow-0 shrink-0 basis-auto w-full md:w-2/12 lg:w-3/12" src="images/bulldog-pizza.png" alt="Image-Bulldog Pizza"/>
+                            </ul>
+                    </li>
+    
+                    <li class="mb-10 ml-6">
+                        <ul>
+                            <div>
+                                <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://dillonsensenig.github.io/tic-tac-toe/">Tic-Tac-Toe</a>
+                                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">This was a group project with my partner and I. We used the Centralized Workflow
+                                and practiced the Waterfall method to produce a Tic-Tac-Toe game. I designed the gameboard with HTML and CSS. 
+                                <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://github.com/DillonSensenig/tic-tac-toe">GitHub code</a>
+                                </p>
+                            </div>
+                            <img class="grow-0 shrink-0 basis-auto w-full md:w-2/12 lg:w-3/12" src="images/tic-tac-toe.png" alt="Image-Tic-Tac-Toe"/>
+                        </ul>
+                    </li>
+
+                    <li class="mb-10 ml-6">
+                        <ul>
+                            <div>
+                              <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://michaelbaker117.github.io/responsive-landing-page/">Responsive Landing Page</a>
+                              <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">I re-created a webpage by practicing CSS and responsive design. 
+                              <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://github.com/michaelbaker117/responsive-landing-page">GitHub code</a>
+                              </p>
+                            </div>
+                            <img class="grow-0 shrink-0 basis-auto w-full md:w-2/12 lg:w-3/12" src="images/responsive-landing-page.png" alt="Image-Responsive Landing Page"/>
+                        </ul>
+                    </li>
+
+                    <li class="mb-10 ml-6">
+                        <ul>
+                            <div>
+                              <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://michaelbaker117.github.io/cset/110/resume/index.html">First Resume</a>
+                              <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">I created a resume in HTML and styled it using CSS. This was my first
+                                HTML and CSS project. 
+                              <a class="mb-4 text-base font-normal text-blue-500 dark:text-blue-400" href="https://github.com/michaelbaker117/cset/tree/master/110/resume">GitHub code</a>
+                              </p>
+                            </div>
+                            <img class="grow-0 shrink-0 basis-auto w-full md:w-2/12 lg:w-3/12" src="images/resume.png" alt="Image-Resume"/>
+                        </ul>
+                    </li>
+    
+                </ol>
+              </div>
+            </section>
+
+        </main>
+    </div>
+    <footer class="text-center lg:text-left bg-gray-100 text-gray-600">
+        <div class="text-center p-6 bg-gray-100">
+            <span>© Made with tailwind</span>
+            <span> by: Michael Baker</span>
         </div>
-      </div>
-
-      <div class="project2">
-        <img src="images/tic-tac-toe.png" alt="Image-Tic-Tac-Toe"/>
-        <div class="text">
-          <h2><a href="https://dillonsensenig.github.io/tic-tac-toe/">Tic-Tac-Toe:</a></h2>
-          <p>This was a group project with my partner and I. We used the Centralized Workflow
-          and practiced the Waterfall method to produce a Tic-Tac-Toe game. I designed the gameboard with HTML and CSS.</p>
-          <a href="https://github.com/DillonSensenig/tic-tac-toe">Code</a>
-        </div>
-      </div>
-      
-      <div class="project3">
-        <img src="images/responsive-landing-page.png" alt="Image-Responsive Landing Page"/>
-        <div class="text">
-          <h2><a href="https://michaelbaker117.github.io/responsive-landing-page/">
-            Responsive Landing Page:</a></h2>
-            <p>I re-created a webpage by practicing CSS and responsive design.</p>
-          <a href="https://github.com/michaelbaker117/responsive-landing-page">Code</a>
-        </div>
-      </div>
-
-      <div class="project4">
-        <img src="images/resume.png" alt="Image-Resume"/>
-        <div class="text">
-          <h2><a href="https://michaelbaker117.github.io/cset/110/resume/index.html">Resume:</a></h2>
-          <p>I created a resume in HTML and styled it using CSS. This was my first
-          HTML and CSS project.</p>
-          <a href="https://github.com/michaelbaker117/cset/tree/master/110/resume">Code</a>
-        </div>
-      </div>
-
-    </main>
-
-    <section>
-      <h2>Github Account</h2>
-      <a href="https://github.com/michaelbaker117">https://github.com/michaelbaker117</a>
-      <h2>Unity3D Profile</h2>
-      <a href="https://learn.unity.com/u/60c6e6c8edbc2a0020c59ca0?tab=profile">http://learn.unity.com</a>
-    </section>
-
-    <footer>
-      <h3>Contact Info:</h3>
-      <p>michaelbaker117@gmail.com</p>
     </footer>
-  </body>
+</body>
 </html>
