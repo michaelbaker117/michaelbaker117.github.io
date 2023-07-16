@@ -11,26 +11,28 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
+            background-color: #1a202c; /* This is 'gray-900' in Tailwind CSS */
+            color: #cbd5e0; /* This is 'gray-300' in Tailwind CSS */
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto bg-white shadow-md">
+<body class="bg-gray-900">
+    <div class="container mx-auto bg-gray-800 shadow-md">
         <!-- Responsive Navigation -->
         <nav class="flex items-center justify-between p-6" x-data="{ open: false }">
-            <div class="text-2xl font-bold text-indigo-500">My Portfolio</div>
+            <div class="text-2xl font-bold text-blue-400">My Portfolio</div>
             <div class="space-x-4 lg:hidden">
-                <button @click="open = !open" class="flex items-center px-3 py-2 border rounded text-indigo-500">
+                <button @click="open = !open" class="flex items-center px-3 py-2 border rounded text-blue-400">
                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 5a1 1 0 100 2h12a1 1 0 100-2H4z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
             </div>
             <div :class="{'block': open, 'hidden': !open}" class="px-2 pt-2 pb-4 lg:flex lg:space-x-4 lg:px-0 lg:py-0">
-                <a class="block px-2 py-1 text-white bg-indigo-500 rounded lg:bg-transparent lg:text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/">Home</a>
-                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/web-dev.html">Web Development</a>
-                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/resume.html">Resume</a>
-                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-indigo-500 hover:text-indigo-500" href="#contact">Contact</a>
+                <a class="block px-2 py-1 text-blue-400 bg-gray-900 rounded lg:bg-transparent hover:text-blue-500" href="https://michaelbaker117.github.io/">Home</a>
+                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-blue-400 hover:text-blue-500" href="https://michaelbaker117.github.io/web-dev.html">Web Development</a>
+                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-blue-400 hover:text-blue-500" href="https://michaelbaker117.github.io/resume.html">Resume</a>
+                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-blue-400 hover:text-blue-500" href="#contact">Contact</a>
             </div>
         </nav>
 
@@ -48,7 +50,7 @@
                 <div class="md:ml-6 mt-6 md:mt-0">
                     <h3 class="text-2xl font-bold">Game 4</h3>
                     <p class="mt-2">Mythology themed trading card game</p>
-                    <a class="mt-2 text-indigo-500 underline" href="link_to_game2">Learn more</a>
+                    <a class="mt-2 text-blue-400 underline" href="link_to_game2">Learn more</a>
                 </div>
             </div>
             <!-- Game 3 -->
@@ -57,7 +59,7 @@
                 <div class="md:ml-6 mt-6 md:mt-0">
                     <h3 class="text-2xl font-bold">Game 3</h3>
                     <p class="mt-2">Fantasy themed simple survival game</p>
-                    <a class="mt-2 text-indigo-500 underline" href="link_to_game2">Learn more</a>
+                    <a class="mt-2 text-blue-400 underline" href="link_to_game2">Learn more</a>
                 </div>
             </div>
             <!-- Game 2 -->
@@ -66,7 +68,7 @@
                 <div class="md:ml-6 mt-6 md:mt-0">
                     <h3 class="text-2xl font-bold">Your Adventure Awaits</h3>
                     <p class="mt-2">A short text adventure game that was originally a JavaScript project running in the console, then made into a Unity game. Used AI genertated images for the backgrounds and C# programming.</p>
-                    <a class="mt-2 text-indigo-500 underline" href="https://play.unity.com/mg/other/webgl-builds-342210">Play the game.</a>
+                    <a class="mt-2 text-blue-400 underline" href="https://play.unity.com/mg/other/webgl-builds-342210">Play the game.</a>
                 </div>
             </div>
             <!-- Game 1 -->
@@ -75,7 +77,7 @@
                 <div class="md:ml-6 mt-6 md:mt-0">
                     <h3 class="text-2xl font-bold">Click & Destroy</h3>
                     <p class="mt-2">This was my prototype 5 project for Unity's "Create With Code 2" course.</p>
-                    <a class="mt-2 text-indigo-500 underline" href="https://play.unity.com/mg/other/webgl-builds-99901">Play the game.</a>
+                    <a class="mt-2 text-blue-400 underline" href="https://play.unity.com/mg/other/webgl-builds-99901">Play the game.</a>
                 </div>
             </div>
         </section>
@@ -90,11 +92,11 @@
         
             <!-- Social Links -->
             <div class="mt-8 flex justify-center space-x-8">
-                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" class="text-indigo-500 hover:text-indigo-700 transition-colors">
+                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" class="text-blue-400 hover:text-blue-500 transition-colors">
                     <i class="fab fa-linkedin fa-2x"></i>
                     <p class="sr-only">LinkedIn</p>
                 </a>
-                <a href="https://github.com/your-github-profile" target="_blank" class="text-indigo-500 hover:text-indigo-700 transition-colors">
+                <a href="https://github.com/your-github-profile" target="_blank" class="text-blue-400 hover:text-blue-500 transition-colors">
                     <i class="fab fa-github fa-2x"></i>
                     <p class="sr-only">GitHub</p>
                 </a>
@@ -102,7 +104,7 @@
         </section>
     </div>
     <!-- Footer -->
-    <footer class="mt-16 bg-indigo-500 text-center text-white p-6">
+    <footer class="mt-16 bg-blue-500 text-center text-white p-6">
         <p>&copy; 2023 My Portfolio. All rights reserved.</p>
     </footer>
     <!-- Add Alpine.js -->
