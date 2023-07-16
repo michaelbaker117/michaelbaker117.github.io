@@ -14,22 +14,22 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto bg-white shadow-md">
+<body class="bg-gray-900">
+    <div class="container mx-auto bg-gray-800 shadow-md">
         <!-- Responsive Navigation -->
         <nav class="flex items-center justify-between p-6" x-data="{ open: false }">
-            <div class="text-2xl font-bold text-indigo-500">My Portfolio</div>
+            <div class="text-2xl font-bold text-blue-400">My Portfolio</div>
             <div class="space-x-4 lg:hidden">
-                <button @click="open = !open" class="flex items-center px-3 py-2 border rounded text-indigo-500">
+                <button @click="open = !open" class="flex items-center px-3 py-2 border rounded text-blue-400">
                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 5a1 1 0 100 2h12a1 1 0 100-2H4z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
             </div>
             <div :class="{'block': open, 'hidden': !open}" class="px-2 pt-2 pb-4 lg:flex lg:space-x-4 lg:px-0 lg:py-0">
-                <a class="block px-2 py-1 text-white bg-indigo-500 rounded lg:bg-transparent lg:text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/">Home</a>
-                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/game-dev.html">Game Development</a>
-                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-indigo-500 hover:text-indigo-500" href="https://michaelbaker117.github.io/web-dev.html">Web Development</a>
+                <a class="block px-2 py-1 text-blue-400 bg-gray-900 rounded lg:bg-transparent hover:text-blue-500" href="https://michaelbaker117.github.io/">Home</a>
+                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-blue-400 hover:text-blue-500" href="https://michaelbaker117.github.io/game-dev.html">Game Development</a>
+                <a class="block px-2 py-1 mt-1 rounded lg:mt-0 text-blue-400 hover:text-blue-500" href="https://michaelbaker117.github.io/web-dev.html">Web Development</a>
             </div>
         </nav>
 
@@ -53,11 +53,11 @@
         
             <!-- Social Links -->
             <div class="mt-8 flex justify-center space-x-8">
-                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" class="text-indigo-500 hover:text-indigo-700 transition-colors">
+                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" class="text-blue-400 hover:text-blue-500 transition-colors">
                     <i class="fab fa-linkedin fa-2x"></i>
                     <p class="sr-only">LinkedIn</p>
                 </a>
-                <a href="https://github.com/your-github-profile" target="_blank" class="text-indigo-500 hover:text-indigo-700 transition-colors">
+                <a href="https://github.com/your-github-profile" target="_blank" class="text-blue-400 hover:text-blue-500 transition-colors">
                     <i class="fab fa-github fa-2x"></i>
                     <p class="sr-only">GitHub</p>
                 </a>
@@ -65,7 +65,7 @@
         </section>
     </div>
     <!-- Footer -->
-    <footer class="mt-16 bg-indigo-500 text-center text-white p-6">
+    <footer class="mt-16 bg-blue-500 text-center text-white p-6">
         <p>&copy; 2023 My Portfolio. All rights reserved.</p>
     </footer>
     <!-- Add Alpine.js -->
