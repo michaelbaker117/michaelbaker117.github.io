@@ -15,7 +15,6 @@
             color: #cbd5e0; /* This is 'gray-300' in Tailwind CSS */
         }
     </style>
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 </head>
 <body class="bg-gray-900">
     <div class="container mx-auto bg-gray-800 shadow-md">
@@ -40,10 +39,12 @@
         <header class="text-center py-16">
             <h1 class="text-4xl font-bold">MMORPG Game Design Document</h1>
         </header>
-        <!-- Resume Section -->
+        <!-- Section -->
         <section id="pdf">
-            <!-- Container for the PDF document, now with vertical scrolling enabled -->
-            <div id="pdfViewer" style="width: 100%; overflow-y: scroll; margin: auto;"></div>
+            <!-- Container for the PDF document -->
+            <div class="flex justify-center mt-6">
+                <iframe src="Mythandria_Online_GDD.pdf" width="600" height="400" style="border:none;"></iframe>
+            </div>
         </section>
         <!-- Contact Section -->
         <section id="contact" class="mt-16">
@@ -68,47 +69,5 @@
     </footer>
     <!-- Add Alpine.js -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script>
-        // Load and display the PDF
-        var url = 'Mythandria_Online_GDD.pdf'; // Update this path to your document
-        var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-        // The workerSrc property shall be specified.
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-
-        pdfjsLib.getDocument(url).promise.then(function(pdf) {
-            console.log('PDF loaded');
-            
-            // Loop over each page in the PDF
-            for(let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                pdf.getPage(pageNum).then(function(page) {
-                    console.log('Page ' + pageNum + ' loaded');
-                    
-                    var scale = 1.5;
-                    var viewport = page.getViewport({scale: scale});
-                    var canvas = document.createElement('canvas');
-                    var context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    // Append the canvas to the container
-                    document.getElementById('pdfViewer').appendChild(canvas);
-
-                    // Render PDF page into canvas context
-                    var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    page.render(renderContext).promise.then(function () {
-                        console.log('Page rendered');
-                    });
-                });
-            }
-        }, function (reason) {
-            // PDF loading error
-            console.error(reason);
-        });
-    </script>
-  
 </body>
 </html>
