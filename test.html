@@ -3,63 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Game Design Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            font-family: 'Orbitron', sans-serif;
+        }
         .hidden-tab { display: none; }
         .active-tab { display: block; }
+        .neon-text {
+            color: #39ff14;
+            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff14;
+        }
+        .tab-link {
+            transition: transform 0.2s ease-in-out;
+        }
+        .tab-link:hover {
+            transform: scale(1.1);
+            color: #39ff14;
+        }
+        .tab-content h2 {
+            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14;
+        }
+        .animated-bg {
+            background: url('https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png');
+        }
+        .custom-button {
+            background: #39ff14;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .custom-button:hover {
+            background: #2ed573;
+        }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="animated-bg">
     <!-- Container -->
     <div class="max-w-5xl mx-auto p-6">
         <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900">My Professional Portfolio</h1>
-            <p class="text-gray-600 mt-2">Welcome to my online space</p>
+            <h1 class="text-4xl font-bold neon-text">Game Design Portfolio</h1>
+            <p class="text-gray-400 mt-2">Level up your gaming experience</p>
         </header>
 
         <!-- Navigation -->
         <nav class="mb-8">
             <ul class="flex justify-center space-x-6">
-                <li><button class="tab-link text-lg text-gray-700 hover:text-blue-500" data-tab="home">Home</button></li>
-                <li><button class="tab-link text-lg text-gray-700 hover:text-blue-500" data-tab="about">About</button></li>
-                <li><button class="tab-link text-lg text-gray-700 hover:text-blue-500" data-tab="projects">Projects</button></li>
-                <li><button class="tab-link text-lg text-gray-700 hover:text-blue-500" data-tab="skills">Skills</button></li>
-                <li><button class="tab-link text-lg text-gray-700 hover:text-blue-500" data-tab="contact">Contact</button></li>
+                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="home">Home</button></li>
+                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="about">About</button></li>
+                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="projects">Projects</button></li>
+                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="skills">Skills</button></li>
+                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="contact">Contact</button></li>
             </ul>
         </nav>
 
         <!-- Content -->
         <div id="home" class="tab-content active-tab">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-800">Welcome to My Portfolio</h2>
-            <p class="text-gray-700">Here, you'll find all the details about my professional journey.</p>
+            <h2 class="text-3xl font-semibold mb-4">Welcome to My Game Design Portfolio</h2>
+            <p>Explore my journey through the world of game design, where creativity meets technology.</p>
         </div>
 
         <div id="about" class="tab-content hidden-tab">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-800">About Me</h2>
-            <p class="text-gray-700">I am a dedicated professional with a passion for creating impactful work.</p>
+            <h2 class="text-3xl font-semibold mb-4">About Me</h2>
+            <p>I am a passionate game designer with experience in creating immersive and engaging gaming experiences. I specialize in level design, UI/UX for games, and game mechanics.</p>
         </div>
 
         <div id="projects" class="tab-content hidden-tab">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-800">My Projects</h2>
-            <p class="text-gray-700">Here are some of the projects I've worked on.</p>
+            <h2 class="text-3xl font-semibold mb-4">My Projects</h2>
+            <p>Here are some of the game projects I've worked on:</p>
+            <ul class="list-disc pl-5 mt-4">
+                <li>Game Project 1 - <i>A Sci-Fi RPG with a focus on narrative-driven gameplay</i></li>
+                <li>Game Project 2 - <i>A Pixel Art Platformer with unique mechanics</i></li>
+                <li>Game Project 3 - <i>VR Simulation Game for immersive experiences</i></li>
+            </ul>
         </div>
 
         <div id="skills" class="tab-content hidden-tab">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-800">My Skills</h2>
-            <p class="text-gray-700">I am proficient in a variety of skills including programming, design, and more.</p>
+            <h2 class="text-3xl font-semibold mb-4">My Skills</h2>
+            <p>Proficient in:</p>
+            <ul class="list-disc pl-5 mt-4">
+                <li>Unity & Unreal Engine</li>
+                <li>Blender & Maya for 3D modeling</li>
+                <li>Pixel Art & 2D Animation</li>
+                <li>C# & Python for scripting</li>
+                <li>Game UI/UX Design</li>
+            </ul>
         </div>
 
         <div id="contact" class="tab-content hidden-tab">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-800">Contact Me</h2>
-            <p class="text-gray-700">Feel free to reach out to me for any professional inquiries.</p>
+            <h2 class="text-3xl font-semibold mb-4">Contact Me</h2>
+            <p>Feel free to reach out for collaborations or inquiries:</p>
+            <button class="custom-button mt-4">Get in Touch</button>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="text-center mt-12">
-        <p class="text-gray-600">&copy; 2024 My Portfolio. All rights reserved.</p>
+        <p class="text-gray-400">&copy; 2024 Game Design Portfolio. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript for Tab Navigation -->
