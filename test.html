@@ -7,41 +7,44 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background: url('https://www.transparenttextures.com/patterns/dark-denim.png'), linear-gradient(135deg, #1b1b1b, #3d3d3d);
-            color: #dcdcdc;
-            font-family: 'Cinzel', serif;
+            background: linear-gradient(135deg, #1e3a8a, #2a4365);
+            color: #f0f4f8;
+            font-family: 'Merriweather', serif;
         }
         .hidden-tab { display: none; }
         .active-tab { display: block; }
         .fantasy-text {
-            color: #ffd700;
-            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500, 0 0 30px #ff8c00;
+            color: #e0e7ff;
+            text-shadow: 0 0 8px #3b82f6, 0 0 16px #60a5fa;
         }
         .tab-link {
             transition: transform 0.3s ease-in-out;
         }
         .tab-link:hover {
             transform: scale(1.1);
-            color: #ffd700;
+            color: #60a5fa;
         }
         .tab-content h2 {
-            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500;
+            text-shadow: 0 0 10px #60a5fa, 0 0 20px #3b82f6;
         }
         .parchment-bg {
-            background: url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+            background: #1e293b;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
         }
         .custom-button {
-            background: #7b3f00;
+            background: #3b82f6;
             color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s ease;
         }
         .custom-button:hover {
-            background: #a0522d;
+            background: #60a5fa;
+        }
+        p, ul, li {
+            color: #cbd5e1;
         }
     </style>
 </head>
@@ -51,7 +54,7 @@
         <!-- Header -->
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold fantasy-text">Fantasy Game Design Portfolio</h1>
-            <p class="text-gray-300 mt-2">Step into a world of imagination and magic</p>
+            <p class="text-blue-200 mt-2">Step into a world of imagination and magic</p>
         </header>
 
         <!-- Navigation -->
@@ -86,8 +89,6 @@
                     <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 1" class="w-80 rounded-md shadow-md">
                     <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 2" class="w-80 rounded-md shadow-md">
                     <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 3" class="w-80 rounded-md shadow-md">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 3" class="w-80 rounded-md shadow-md">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 3" class="w-80 rounded-md shadow-md">
                 </div>
                 <p class="mt-4 text-lg">An epic RPG set in a world of dragons and sorcery, where players embark on quests to save a kingdom from destruction.</p>
                 <p class="mt-2"><strong>Skills & Tools Used:</strong> Unity, C#, 3D Modeling, Storytelling, Level Design, Character Animation</p>
@@ -104,7 +105,7 @@
                 <p class="mt-4 text-lg">A strategy game featuring mystical creatures and ancient magic, where players must conquer territories and build alliances.</p>
                 <p class="mt-2"><strong>Skills & Tools Used:</strong> Unreal Engine, Blueprint Scripting, 2D & 3D Art, AI Programming, Game Balancing</p>
             </div>
-        
+
             <!-- Project 3 -->
             <div class="mb-12">
                 <h3 class="text-2xl font-semibold mb-4">Quest for the Lost Sword</h3>
@@ -117,7 +118,6 @@
                 <p class="mt-2"><strong>Skills & Tools Used:</strong> GameMaker Studio, Pixel Art, 2D Animation, Level Design, Sound Design</p>
             </div>
         </div>
-
 
         <div id="skills" class="tab-content hidden-tab parchment-bg">
             <h2 class="text-3xl font-semibold mb-4">My Skills</h2>
@@ -140,7 +140,7 @@
 
     <!-- Footer -->
     <footer class="text-center mt-12">
-        <p class="text-gray-300">&copy; 2024 Fantasy Game Design Portfolio. All rights reserved.</p>
+        <p class="text-blue-200">&copy; 2024 Fantasy Game Design Portfolio. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript for Tab Navigation -->
