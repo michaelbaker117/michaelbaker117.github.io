@@ -3,108 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Design Portfolio</title>
+    <title>Fantasy Game Design Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #e0e0e0;
-            font-family: 'Orbitron', sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/dark-denim.png'), linear-gradient(135deg, #1b1b1b, #3d3d3d);
+            color: #dcdcdc;
+            font-family: 'Cinzel', serif;
         }
         .hidden-tab { display: none; }
         .active-tab { display: block; }
-        .neon-text {
-            color: #39ff14;
-            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff14;
+        .fantasy-text {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500, 0 0 30px #ff8c00;
         }
         .tab-link {
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.3s ease-in-out;
         }
         .tab-link:hover {
             transform: scale(1.1);
-            color: #39ff14;
+            color: #ffd700;
         }
         .tab-content h2 {
-            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500;
         }
-        .animated-bg {
-            background: url('https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png');
+        .parchment-bg {
+            background: url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
         }
         .custom-button {
-            background: #39ff14;
-            color: #000;
+            background: #7b3f00;
+            color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s ease;
         }
         .custom-button:hover {
-            background: #2ed573;
+            background: #a0522d;
         }
     </style>
 </head>
-<body class="animated-bg">
+<body>
     <!-- Container -->
     <div class="max-w-5xl mx-auto p-6">
         <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold neon-text">Game Design Portfolio</h1>
-            <p class="text-gray-400 mt-2">Level up your gaming experience</p>
+            <h1 class="text-4xl font-bold fantasy-text">Fantasy Game Design Portfolio</h1>
+            <p class="text-gray-300 mt-2">Step into a world of imagination and magic</p>
         </header>
 
         <!-- Navigation -->
         <nav class="mb-8">
             <ul class="flex justify-center space-x-6">
-                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="home">Home</button></li>
-                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="about">About</button></li>
-                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="projects">Projects</button></li>
-                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="skills">Skills</button></li>
-                <li><button class="tab-link text-lg hover:text-blue-500" data-tab="contact">Contact</button></li>
+                <li><button class="tab-link text-lg" data-tab="home">Home</button></li>
+                <li><button class="tab-link text-lg" data-tab="about">About</button></li>
+                <li><button class="tab-link text-lg" data-tab="projects">Projects</button></li>
+                <li><button class="tab-link text-lg" data-tab="skills">Skills</button></li>
+                <li><button class="tab-link text-lg" data-tab="contact">Contact</button></li>
             </ul>
         </nav>
 
         <!-- Content -->
-        <div id="home" class="tab-content active-tab">
-            <h2 class="text-3xl font-semibold mb-4">Welcome to My Game Design Portfolio</h2>
-            <p>Explore my journey through the world of game design, where creativity meets technology.</p>
+        <div id="home" class="tab-content active-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-4">Welcome to My Fantasy Game Design Portfolio</h2>
+            <p>Discover my journey through enchanted lands and mythical worlds where creativity knows no bounds.</p>
         </div>
 
-        <div id="about" class="tab-content hidden-tab">
+        <div id="about" class="tab-content hidden-tab parchment-bg">
             <h2 class="text-3xl font-semibold mb-4">About Me</h2>
-            <p>I am a passionate game designer with experience in creating immersive and engaging gaming experiences. I specialize in level design, UI/UX for games, and game mechanics.</p>
+            <p>I am a game designer with a passion for crafting immersive fantasy worlds. My expertise lies in world-building, character design, and creating epic storylines.</p>
         </div>
 
-        <div id="projects" class="tab-content hidden-tab">
+        <div id="projects" class="tab-content hidden-tab parchment-bg">
             <h2 class="text-3xl font-semibold mb-4">My Projects</h2>
-            <p>Here are some of the game projects I've worked on:</p>
+            <p>Here are some of the fantastical projects I've brought to life:</p>
             <ul class="list-disc pl-5 mt-4">
-                <li>Game Project 1 - <i>A Sci-Fi RPG with a focus on narrative-driven gameplay</i></li>
-                <li>Game Project 2 - <i>A Pixel Art Platformer with unique mechanics</i></li>
-                <li>Game Project 3 - <i>VR Simulation Game for immersive experiences</i></li>
+                <li>The Dragon's Lair - <i>An epic RPG set in a world of dragons and sorcery</i></li>
+                <li>Elven Realms - <i>A strategy game with mystical creatures and ancient magic</i></li>
+                <li>Quest for the Lost Sword - <i>A pixel-art adventure with a legendary quest</i></li>
             </ul>
         </div>
 
-        <div id="skills" class="tab-content hidden-tab">
+        <div id="skills" class="tab-content hidden-tab parchment-bg">
             <h2 class="text-3xl font-semibold mb-4">My Skills</h2>
             <p>Proficient in:</p>
             <ul class="list-disc pl-5 mt-4">
-                <li>Unity & Unreal Engine</li>
-                <li>Blender & Maya for 3D modeling</li>
-                <li>Pixel Art & 2D Animation</li>
-                <li>C# & Python for scripting</li>
-                <li>Game UI/UX Design</li>
+                <li>World-Building and Lore Creation</li>
+                <li>Character Design and Animation</li>
+                <li>Game Mechanics and Balancing</li>
+                <li>Storytelling and Narrative Design</li>
+                <li>2D & 3D Art in Fantasy Style</li>
             </ul>
         </div>
 
-        <div id="contact" class="tab-content hidden-tab">
+        <div id="contact" class="tab-content hidden-tab parchment-bg">
             <h2 class="text-3xl font-semibold mb-4">Contact Me</h2>
-            <p>Feel free to reach out for collaborations or inquiries:</p>
-            <button class="custom-button mt-4">Get in Touch</button>
+            <p>Ready to embark on a magical journey together? Reach out for collaborations or inquiries:</p>
+            <button class="custom-button mt-4">Send a Raven</button>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="text-center mt-12">
-        <p class="text-gray-400">&copy; 2024 Game Design Portfolio. All rights reserved.</p>
+        <p class="text-gray-300">&copy; 2024 Fantasy Game Design Portfolio. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript for Tab Navigation -->
