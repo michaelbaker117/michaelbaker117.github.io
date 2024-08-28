@@ -1,74 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #1a202c; /* This is 'gray-900' in Tailwind CSS */
-            color: #cbd5e0; /* This is 'gray-300' in Tailwind CSS */
+            background: linear-gradient(135deg, #1e3a8a, #2a4365);
+            color: #f0f4f8;
+            font-family: 'Merriweather', serif;
+        }
+        .hidden-tab { display: none; }
+        .active-tab { display: block; }
+        .fantasy-text {
+            color: #e0e7ff;
+            text-shadow: 0 0 8px #3b82f6, 0 0 16px #60a5fa;
+        }
+        .tab-link {
+            transition: transform 0.3s ease-in-out;
+        }
+        .tab-link:hover {
+            transform: scale(1.1);
+            color: #60a5fa;
+        }
+        .tab-content h2 {
+            text-shadow: 0 0 10px #60a5fa, 0 0 20px #3b82f6;
+        }
+        .parchment-bg {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        .custom-button {
+            background: #3b82f6;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .custom-button:hover {
+            background: #60a5fa;
+        }
+        p, ul, li {
+            color: #cbd5e1;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            margin-top: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .writing-sample {
+            margin-bottom: 2rem;
+            padding: 15px;
+            background-color: #2a4365;
+            border-left: 4px solid #60a5fa;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
+<body>
+    <!-- Container -->
+    <div class="max-w-5xl mx-auto p-6">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold fantasy-text">Michael F. Baker</h1>
+            <p class="text-blue-200 mt-2">Step into a world of imagination and magic</p>
+        </header>
 
-<body class="bg-gray-900">
-    <div class="container mx-auto bg-gray-800 shadow-md">
-        <!-- Responsive Navigation -->
-        <nav class="flex items-center justify-between p-6" x-data="{ open: false }">
-            <div class="text-2xl font-bold text-blue-400">My Portfolio</div>
-            <div class="space-x-4 lg:hidden">
-                <button @click="open = !open" class="flex items-center px-3 py-2 border rounded text-blue-400">
-                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 5a1 1 0 100 2h12a1 1 0 100-2H4z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
-            <div :class="{'block': open, 'hidden': !open}" class="px-2 pt-2 pb-4 lg:flex lg:space-x-4 lg:px-0 lg:py-0">
-
-            </div>
+        <!-- Navigation -->
+        <nav class="mb-8">
+            <ul class="flex justify-center space-x-6">
+                <li><button class="tab-link text-lg" data-tab="home">Home</button></li>
+                <li><button class="tab-link text-lg" data-tab="about">About</button></li>
+                <li><button class="tab-link text-lg" data-tab="projects">Projects</button></li>
+                <li><button class="tab-link text-lg" data-tab="gdd">Documents</button></li>
+                <li><button class="tab-link text-lg" data-tab="writing">Writing</button></li>
+                <li><button class="tab-link text-lg" data-tab="skills">Skills</button></li>
+                <li><button class="tab-link text-lg" data-tab="contact">Contact</button></li>
+            </ul>
         </nav>
 
-        <!-- Header -->
-        <header class="text-center py-16">
-            <h1 class="text-4xl font-bold">Hello, please choose a portfolio to view.</h1>
-            <br>
-            <br>
-            <br>
-            <div class="flex justify-center mt-8">
-                <a href="https://michaelbaker117.github.io/game-dev.html" class="bg-blue-500 text-gray-300 py-2 px-4 rounded-lg m-2 hover:bg-blue-600">Game Development Portfolio</a>
-                <a href="https://michaelbaker117.github.io/web-dev.html" class="bg-blue-500 text-gray-300 py-2 px-4 rounded-lg m-2 hover:bg-blue-600">Software Engineering Portfolio</a>
-            </div>
-        </header>
-        <!-- Contact Section -->
-        <section id="contact" class="mt-16">
-            <h2 class="text-3xl font-bold text-center">Get in Touch</h2>
-            <p class="mt-6 text-center max-w-xl mx-auto">
-                I'm looking for new opportunities and would love to hear from you. 
-                Connect with me through LinkedIn.
-            </p>
-        
-            <!-- Social Links -->
-            <div class="mt-8 flex justify-center space-x-8">
-                <a href="https://www.linkedin.com/in/michael-baker-39a756223" class="text-blue-400 hover:text-blue-500 transition-colors">
-                    <i class="fab fa-linkedin fa-2x"></i>
-                    <p class="sr-only">LinkedIn</p>
-                </a>
-            </div>
-        </section>
-    </div>
-    <!-- Footer -->
-    <footer class="mt-16 bg-blue-500 text-center text-white p-6">
-        <p>&copy; 2023 My Portfolio. All rights reserved.</p>
-    </footer>
-    <!-- Add Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-</body>
+        <!-- Content -->
+        <div id="home" class="tab-content active-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-4">Welcome to My Game Design Portfolio</h2>
+            <p>Discover my journey through enchanted lands and mythical worlds where creativity knows no bounds.</p>
+        </div>
 
+        <div id="about" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-4">About Me</h2>
+            <p>I am a game designer with a passion for crafting immersive fantasy worlds. My expertise lies in world-building, character design, and creating epic storylines.</p>
+        </div>
+
+        <div id="projects" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-8">My Projects</h2>
+            
+            <!-- Project 1 -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-4">The Dragon's Lair</h3>
+                <div class="flex space-x-4 overflow-x-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 1" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 2" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 1 Image 3" class="w-80 rounded-md shadow-md">
+                </div>
+                <p class="mt-4 text-lg">An epic RPG set in a world of dragons and sorcery, where players embark on quests to save a kingdom from destruction.</p>
+                <p class="mt-2"><strong>Skills & Tools Used:</strong> Unity, C#, 3D Modeling, Storytelling, Level Design, Character Animation</p>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-4">Elven Realms</h3>
+                <div class="flex space-x-4 overflow-x-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 2 Image 1" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 2 Image 2" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 2 Image 3" class="w-80 rounded-md shadow-md">
+                </div>
+                <p class="mt-4 text-lg">A strategy game featuring mystical creatures and ancient magic, where players must conquer territories and build alliances.</p>
+                <p class="mt-2"><strong>Skills & Tools Used:</strong> Unreal Engine, Blueprint Scripting, 2D & 3D Art, AI Programming, Game Balancing</p>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-4">Quest for the Lost Sword</h3>
+                <div class="flex space-x-4 overflow-x-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 3 Image 1" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 3 Image 2" class="w-80 rounded-md shadow-md">
+                    <img src="https://via.placeholder.com/300x200" alt="Project 3 Image 3" class="w-80 rounded-md shadow-md">
+                </div>
+                <p class="mt-4 text-lg">A pixel-art adventure game that takes players on a legendary quest to recover a powerful sword hidden in a vast, dangerous world.</p>
+                <p class="mt-2"><strong>Skills & Tools Used:</strong> GameMaker Studio, Pixel Art, 2D Animation, Level Design, Sound Design</p>
+            </div>
+        </div>
+
+        <!-- Game Design Documents Section -->
+        <div id="gdd" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-8">Documents</h2>
+
+            <!-- Document 1 -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold mb-4">The Gaia System - Reaearch & Development</h3>
+                <iframe src="documents/The Gaia System.pdf"></iframe>
+            </div>
+
+            <!-- Document 2 -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold mb-4">Gods of Divinity - Trading Card Game Design</h3>
+                <iframe src="documents/Project Gods of Divinity.pdf"></iframe>
+            </div>
+
+            <!-- Document 3 -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold mb-4">Quest for the Lost Sword - GDD</h3>
+                <p class="text-lg">The game design document for Quest for the Lost Sword, covering the pixel-art style, gameplay mechanics, and narrative.</p>
+                <iframe src="path-to-your-pdf/Quest-for-the-Lost-Sword-GDD.pdf"></iframe>
+            </div>
+        </div>
+
+        <!-- Writing Samples Section -->
+        <div id="writing" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-8">Writing Samples</h2>
+
+            <div class="writing-sample">
+                <p>Choose a path of your own volition, disregard the whispers and screams.<br>
+                The light shall be bestowed upon your soul, piercing the heavens, dispelling the darkened voices and ghostly figures around you.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Come child, fly through the heavens, pierce the clouds with your magnificence, let your wings guide you on the winds toward thine own skyward castle.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Sit amongst the stars and trees, listen to the falling rain, observe the beauty of your surroundings, keeping an opened mind, you may find the treasure you seek.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Thou shall not infringe upon thine own feet, if one does not desire despair or suffering.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>In the cityscape listening to the ambient music of the minstrel’s ballad, you will find inspirational beauty amongst the suffrages of the living.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>You must live in the present, else you will seek the past. Present opportunities will be your tool to carving a path toward the future.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Be a wandering soul, not a soulless husk.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Wander around in the darkness and search for an escape route, instead of sitting in the corner pondering the hypotheticals and the unknowns.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>The strings of the minstrel’s lute resonate with the surrounding souls, the thrumming sounds will guide them to their destination.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Inspire others so that others may inspire you.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Be not afraid to wander alone in the darkness, the darkness and the unknown can be a comforting place, although do not stay too long else the demons will come, taking you to the deepest depths of despair.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Thou shall not disturb one who is made of stone, else you will incur their silently unpredictable calm wrath.</p>
+            </div>
+            
+            <div class="writing-sample">
+                <p>Paths diverge, pillars will rise and fall, keep moving, envision your destination, don’t stray too long in places you don’t belong, have faith in your pursuit, create objectives not goals, goals have an end, your path will never end, you must have objectives that can be achieved at anytime or moment during your journey.</p>
+            </div>
+        </div>
+
+        <div id="skills" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-4">My Skills</h2>
+            <p>Proficient in:</p>
+            <ul class="list-disc pl-5 mt-4">
+                <li>World-Building and Lore Creation</li>
+                <li>Character Design and Animation</li>
+                <li>Game Mechanics and Balancing</li>
+                <li>Storytelling and Narrative Design</li>
+                <li>2D & 3D Art in Fantasy Style</li>
+            </ul>
+        </div>
+
+        <div id="contact" class="tab-content hidden-tab parchment-bg">
+            <h2 class="text-3xl font-semibold mb-4">Contact Me</h2>
+            <p>Ready to embark on a magical journey together? Reach out for collaborations or inquiries:</p>
+            <button class="custom-button mt-4">Send a Raven</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-12">
+        <p class="text-blue-200">&copy; 2024 Michael F. Baker. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Tab Navigation -->
+    <script>
+        document.querySelectorAll('.tab-link').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.add('hidden-tab');
+                    tab.classList.remove('active-tab');
+                });
+
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active-tab');
+                document.getElementById(tabId).classList.remove('hidden-tab');
+            });
+        });
+    </script>
+</body>
 </html>
