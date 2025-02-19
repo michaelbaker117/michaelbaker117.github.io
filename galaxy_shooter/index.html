@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Galaxy Shooter</title>
+  <title>Galaxy Shooter - Professional VFX & Touch Controls</title>
   <style>
     /* Animate the background for a dynamic cosmic effect */
     @keyframes backgroundAnimation {
@@ -15,6 +15,11 @@
       overflow: hidden;
       animation: backgroundAnimation 20s ease-in-out infinite;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     canvas {
       display: block;
@@ -39,7 +44,6 @@
       ctx.bezierCurveTo(0, size, size / 2, size, size / 2, topCurveHeight);
       ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, topCurveHeight);
       ctx.closePath();
-      // Add a subtle shadow and gradient fill
       let grd = ctx.createLinearGradient(0, 0, 0, size * 1.2);
       grd.addColorStop(0, "#ff5c5c");
       grd.addColorStop(1, "#d40000");
@@ -84,12 +88,106 @@
       canvas.height = window.innerHeight;
     });
 
-    // Game state can be "menu", "playing", or "gameover"
+    // ================= Touch Controls Setup =================
+    // Virtual right-hand joystick for movement; left-side touches trigger firing.
+    let fireActive = false;  // True if any left-side touch is active.
+    const joystick = {
+      active: false,
+      identifier: null,
+      baseX: 0,
+      baseY: 0,
+      currentX: 0,
+      currentY: 0,
+      maxDistance: 50,  // Maximum handle movement from base.
+      vector: { x: 0, y: 0 }
+    };
+
+    // Determine if a touch is in the joystick region (lower right quarter)
+    function isTouchInJoystickZone(touch) {
+      return touch.clientX > canvas.width * 0.5 && touch.clientY > canvas.height * 0.5;
+    }
+
+    // Determine if a touch is in the firing zone (left half)
+    function isTouchInFireZone(touch) {
+      return touch.clientX <= canvas.width * 0.5;
+    }
+
+    function handleTouchStart(event) {
+      event.preventDefault();
+      for (let touch of event.changedTouches) {
+        if (!joystick.active && isTouchInJoystickZone(touch)) {
+          // Start joystick control with this touch.
+          joystick.active = true;
+          joystick.identifier = touch.identifier;
+          joystick.baseX = touch.clientX;
+          joystick.baseY = touch.clientY;
+          joystick.currentX = touch.clientX;
+          joystick.currentY = touch.clientY;
+          joystick.vector = { x: 0, y: 0 };
+        } else if (isTouchInFireZone(touch)) {
+          // Any touch in the left half activates firing.
+          fireActive = true;
+        }
+      }
+    }
+
+    function handleTouchMove(event) {
+      event.preventDefault();
+      for (let touch of event.changedTouches) {
+        if (joystick.active && touch.identifier === joystick.identifier) {
+          joystick.currentX = touch.clientX;
+          joystick.currentY = touch.clientY;
+          let dx = joystick.currentX - joystick.baseX;
+          let dy = joystick.currentY - joystick.baseY;
+          let dist = Math.hypot(dx, dy);
+          let max = joystick.maxDistance;
+          if (dist > max) {
+            // Clamp the joystick handle within the max distance.
+            let angle = Math.atan2(dy, dx);
+            joystick.currentX = joystick.baseX + Math.cos(angle) * max;
+            joystick.currentY = joystick.baseY + Math.sin(angle) * max;
+            dx = joystick.currentX - joystick.baseX;
+            dy = joystick.currentY - joystick.baseY;
+            dist = max;
+          }
+          // Update normalized movement vector.
+          joystick.vector.x = dx / max;
+          joystick.vector.y = dy / max;
+        }
+      }
+    }
+
+    function handleTouchEnd(event) {
+      event.preventDefault();
+      for (let touch of event.changedTouches) {
+        if (joystick.active && touch.identifier === joystick.identifier) {
+          joystick.active = false;
+          joystick.identifier = null;
+          joystick.vector = { x: 0, y: 0 };
+        }
+      }
+      // Update fireActive based on remaining touches.
+      fireActive = false;
+      for (let touch of event.touches) {
+        if (isTouchInFireZone(touch)) {
+          fireActive = true;
+          break;
+        }
+      }
+    }
+
+    canvas.addEventListener("touchstart", handleTouchStart, {passive:false});
+    canvas.addEventListener("touchmove", handleTouchMove, {passive:false});
+    canvas.addEventListener("touchend", handleTouchEnd, {passive:false});
+    canvas.addEventListener("touchcancel", handleTouchEnd, {passive:false});
+    // ================= End Touch Controls Setup =================
+
+    // Game state: "menu", "playing", or "gameover"
     let gameState = "menu";
     let score = 0;
     let startTime = 0;
 
-    // Track key presses
+    // Keyboard input for non‑touch devices
     const keys = {};
     document.addEventListener('keydown', (e) => {
       keys[e.key] = true;
@@ -101,7 +199,7 @@
       keys[e.key] = false;
     });
 
-    // Player spaceship definition with a sleek design and engine glow
+    // Player spaceship definition with sleek design and engine glow
     const spaceship = {
       x: canvas.width / 2,
       y: canvas.height - 100,
@@ -152,7 +250,7 @@
         ctx.shadowColor = "cyan";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        let grd = ctx.createRadialGradient(this.x, this.y, this.radius, this.x, this.y, this.radius*2);
+        let grd = ctx.createRadialGradient(this.x, this.y, this.radius, this.x, this.y, this.radius * 2);
         grd.addColorStop(0, "cyan");
         grd.addColorStop(1, "transparent");
         ctx.fillStyle = grd;
@@ -161,7 +259,7 @@
       }
     }
 
-    // Enemy class with a dynamic gradient glow
+    // Enemy class with dynamic gradient glow
     class Enemy {
       constructor(x, y, speed) {
         this.x = x;
@@ -213,17 +311,21 @@
       }
     }
 
-    // Horizontal obstacles that move from the sides
+    // HorizontalObstacle class (obstacles spawning from sides)
     class HorizontalObstacle {
       constructor(x, y, speed, direction) {
         this.x = x;
         this.y = y;
         this.radius = 30;
         this.speed = speed;
-        this.direction = direction;
+        this.direction = direction; // "right" or "left"
       }
       update() {
-        this.direction === "right" ? this.x += this.speed : this.x -= this.speed;
+        if (this.direction === "right") {
+          this.x += this.speed;
+        } else {
+          this.x -= this.speed;
+        }
       }
       draw() {
         ctx.save();
@@ -245,7 +347,7 @@
       constructor(x, y, type) {
         this.x = x;
         this.y = y;
-        this.type = type;
+        this.type = type;  // "full-heart" or "shield"
         this.radius = 15;
         this.speed = 2;
       }
@@ -324,7 +426,7 @@
       ctx.fillText("Galaxy Shooter", canvas.width / 2, canvas.height / 2 - 60);
       ctx.font = "24px Segoe UI";
       ctx.fillText("Press Enter to Start", canvas.width / 2, canvas.height / 2);
-      ctx.fillText("Arrow Keys: Move | Spacebar: Shoot", canvas.width / 2, canvas.height / 2 + 40);
+      ctx.fillText("Arrow Keys/Joystick: Move | Space/Left Touch: Shoot", canvas.width / 2, canvas.height / 2 + 40);
     }
 
     // Draw the game over screen
@@ -358,11 +460,29 @@
       ctx.restore();
     }
 
+    // Draw the virtual joystick if active
+    function drawJoystick() {
+      if (!joystick.active) return;
+      // Draw base circle (semi-transparent)
+      ctx.save();
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      ctx.arc(joystick.baseX, joystick.baseY, joystick.maxDistance, 0, Math.PI * 2);
+      ctx.fillStyle = "#444";
+      ctx.fill();
+      // Draw handle circle
+      ctx.beginPath();
+      ctx.arc(joystick.currentX, joystick.currentY, 20, 0, Math.PI * 2);
+      ctx.fillStyle = "#888";
+      ctx.fill();
+      ctx.restore();
+    }
+
     // Main game loop
     function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw and update twinkling stars
+      // Update and draw twinkling stars
       for (let star of stars) {
         ctx.save();
         ctx.globalAlpha = star.alpha;
@@ -371,9 +491,8 @@
         ctx.fillStyle = "white";
         ctx.fill();
         ctx.restore();
-        // Update twinkle
         star.alpha += star.twinkleSpeed;
-        if(star.alpha > 1 || star.alpha < 0.3) star.twinkleSpeed = -star.twinkleSpeed;
+        if (star.alpha > 1 || star.alpha < 0.3) star.twinkleSpeed = -star.twinkleSpeed;
         star.y += star.speed;
         if (star.y > canvas.height) {
           star.y = 0;
@@ -400,28 +519,45 @@
         spaceship.shieldActive = false;
       }
 
-      // Player movement
-      if (keys['ArrowLeft'] && spaceship.x - spaceship.width / 2 > 0) {
-        spaceship.x -= spaceship.speed;
+      // -------- Player Movement --------
+      // For touch devices, use joystick input; otherwise use keyboard arrow keys.
+      if (joystick.active) {
+        // Compute joystick displacement vector.
+        let dx = joystick.currentX - joystick.baseX;
+        let dy = joystick.currentY - joystick.baseY;
+        let dist = Math.hypot(dx, dy);
+        let factor = Math.min(dist, joystick.maxDistance) / joystick.maxDistance;
+        let normX = dist ? dx / dist : 0;
+        let normY = dist ? dy / dist : 0;
+        spaceship.x += normX * spaceship.speed * factor;
+        spaceship.y += normY * spaceship.speed * factor;
+      } else {
+        if (keys['ArrowLeft'] && spaceship.x - spaceship.width / 2 > 0) {
+          spaceship.x -= spaceship.speed;
+        }
+        if (keys['ArrowRight'] && spaceship.x + spaceship.width / 2 < canvas.width) {
+          spaceship.x += spaceship.speed;
+        }
+        if (keys['ArrowUp'] && spaceship.y - spaceship.height / 2 > 0) {
+          spaceship.y -= spaceship.speed;
+        }
+        if (keys['ArrowDown'] && spaceship.y + spaceship.height / 2 < canvas.height) {
+          spaceship.y += spaceship.speed;
+        }
       }
-      if (keys['ArrowRight'] && spaceship.x + spaceship.width / 2 < canvas.width) {
-        spaceship.x += spaceship.speed;
-      }
-      if (keys['ArrowUp'] && spaceship.y - spaceship.height / 2 > 0) {
-        spaceship.y -= spaceship.speed;
-      }
-      if (keys['ArrowDown'] && spaceship.y + spaceship.height / 2 < canvas.height) {
-        spaceship.y += spaceship.speed;
-      }
+      // Ensure spaceship remains within bounds.
+      spaceship.x = Math.max(spaceship.width / 2, Math.min(canvas.width - spaceship.width / 2, spaceship.x));
+      spaceship.y = Math.max(spaceship.height / 2, Math.min(canvas.height - spaceship.height / 2, spaceship.y));
 
-      // Shooting
-      if (keys[' '] && spaceship.cooldown <= 0) {
+      // -------- Firing --------
+      // For touch devices, if fireActive is true, auto-fire.
+      if ((fireActive || keys[' ']) && spaceship.cooldown <= 0) {
         bullets.push(new Bullet(spaceship.x, spaceship.y - spaceship.height / 2));
         spaceship.cooldown = 15;
       }
       if (spaceship.cooldown > 0) spaceship.cooldown--;
 
-      // Draw polished spaceship with engine glow
+      // Draw the polished spaceship with engine glow.
       ctx.save();
       ctx.translate(spaceship.x, spaceship.y);
       ctx.beginPath();
@@ -433,7 +569,7 @@
       ctx.shadowColor = "cyan";
       ctx.fillStyle = "white";
       ctx.fill();
-      // Draw engine glow
+      // Draw engine glow.
       ctx.beginPath();
       ctx.moveTo(0, spaceship.height / 2);
       ctx.lineTo(-spaceship.width / 4, spaceship.height / 2 + 20);
@@ -443,7 +579,6 @@
       ctx.globalAlpha = 0.5;
       ctx.fill();
       ctx.globalAlpha = 1;
-      // Draw shield outline if active
       if (spaceship.shieldActive) {
         ctx.beginPath();
         ctx.arc(0, 0, spaceship.width, 0, Math.PI * 2);
@@ -453,7 +588,10 @@
       }
       ctx.restore();
 
-      // Update and draw bullets
+      // Draw virtual joystick (for touch devices)
+      drawJoystick();
+
+      // Update and draw bullets.
       for (let i = bullets.length - 1; i >= 0; i--) {
         let bullet = bullets[i];
         bullet.update();
@@ -461,21 +599,21 @@
         if (bullet.y < 0) bullets.splice(i, 1);
       }
 
-      // Spawn enemies
+      // Spawn enemies.
       if (Math.random() < 0.02 * difficultyMultiplier) {
         let x = Math.random() * (canvas.width - 40) + 20;
         let speed = (Math.random() * 2 + 1) * difficultyMultiplier;
         enemies.push(new Enemy(x, -20, speed));
       }
 
-      // Spawn falling obstacles
+      // Spawn falling obstacles.
       if (Math.random() < 0.005 * difficultyMultiplier) {
         let x = Math.random() * (canvas.width - 60) + 30;
         let speed = (Math.random() * 1 + 0.5) * difficultyMultiplier;
         obstacles.push(new Obstacle(x, -30, speed));
       }
 
-      // Spawn horizontal obstacles after 40 seconds
+      // Spawn horizontal obstacles after 40 seconds.
       if (playTime > 40 && Math.random() < 0.003 * difficultyMultiplier) {
         let direction = Math.random() < 0.5 ? "right" : "left";
         let x, speed;
@@ -485,20 +623,20 @@
         horizontalObstacles.push(new HorizontalObstacle(x, y, speed, direction));
       }
 
-      // Spawn power-ups
+      // Spawn power-ups.
       if (Math.random() < 0.001 * difficultyMultiplier) {
         let type = Math.random() < 0.5 ? "full-heart" : "shield";
         let x = Math.random() * (canvas.width - 60) + 30;
         powerUps.push(new PowerUp(x, -20, type));
       }
 
-      // Update and draw enemies
+      // Update and draw enemies.
       for (let i = enemies.length - 1; i >= 0; i--) {
         let enemy = enemies[i];
         enemy.update();
         enemy.draw();
         let dx = enemy.x - spaceship.x, dy = enemy.y - spaceship.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.hypot(dx, dy);
         if (distance < enemy.radius + spaceship.width / 3) {
           if (spaceship.shieldActive) {
             createExplosion(enemy.x, enemy.y, 'orange');
@@ -515,13 +653,13 @@
         if (enemy.y - enemy.radius > canvas.height) enemies.splice(i, 1);
       }
 
-      // Update and draw obstacles
+      // Update and draw falling obstacles.
       for (let i = obstacles.length - 1; i >= 0; i--) {
         let obstacle = obstacles[i];
         obstacle.update();
         obstacle.draw();
         let dx = obstacle.x - spaceship.x, dy = obstacle.y - spaceship.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.hypot(dx, dy);
         if (distance < obstacle.radius + spaceship.width / 3) {
           if (spaceship.shieldActive) {
             createExplosion(obstacle.x, obstacle.y, 'orange');
@@ -538,13 +676,13 @@
         if (obstacle.y - obstacle.radius > canvas.height) obstacles.splice(i, 1);
       }
 
-      // Update and draw horizontal obstacles
+      // Update and draw horizontal obstacles.
       for (let i = horizontalObstacles.length - 1; i >= 0; i--) {
         let hObs = horizontalObstacles[i];
         hObs.update();
         hObs.draw();
         let dx = hObs.x - spaceship.x, dy = hObs.y - spaceship.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.hypot(dx, dy);
         if (distance < hObs.radius + spaceship.width / 3) {
           if (spaceship.shieldActive) {
             createExplosion(hObs.x, hObs.y, 'orange');
@@ -562,17 +700,18 @@
           horizontalObstacles.splice(i, 1);
       }
 
-      // Update and draw power-ups
+      // Update and draw power-ups.
       for (let i = powerUps.length - 1; i >= 0; i--) {
         let powerUp = powerUps[i];
         powerUp.update();
         powerUp.draw();
         let dx = powerUp.x - spaceship.x, dy = powerUp.y - spaceship.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.hypot(dx, dy);
         if (distance < powerUp.radius + spaceship.width / 3) {
           if (powerUp.type === "full-heart") {
             spaceship.lives += 1;
           } else if (powerUp.type === "shield") {
+            // Reset shield duration if already active.
             spaceship.shieldActive = true;
             spaceship.shieldExpireTime = Date.now() + 10000;
           }
@@ -582,13 +721,13 @@
         if (powerUp.y - powerUp.radius > canvas.height) powerUps.splice(i, 1);
       }
 
-      // Check collisions between bullets and enemies
+      // Check collisions between bullets and enemies.
       for (let i = enemies.length - 1; i >= 0; i--) {
         let enemy = enemies[i];
         for (let j = bullets.length - 1; j >= 0; j--) {
           let bullet = bullets[j];
           let dx = enemy.x - bullet.x, dy = enemy.y - bullet.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+          let distance = Math.hypot(dx, dy);
           if (distance < enemy.radius + bullet.radius) {
             createExplosion(enemy.x, enemy.y);
             enemies.splice(i, 1);
@@ -599,13 +738,13 @@
         }
       }
 
-      // Check collisions between bullets and obstacles
+      // Check collisions between bullets and falling obstacles.
       for (let i = obstacles.length - 1; i >= 0; i--) {
         let obstacle = obstacles[i];
         for (let j = bullets.length - 1; j >= 0; j--) {
           let bullet = bullets[j];
           let dx = obstacle.x - bullet.x, dy = obstacle.y - bullet.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+          let distance = Math.hypot(dx, dy);
           if (distance < obstacle.radius + bullet.radius) {
             createExplosion(obstacle.x, obstacle.y, 'orange');
             obstacles.splice(i, 1);
@@ -616,13 +755,13 @@
         }
       }
 
-      // Check collisions between bullets and horizontal obstacles
+      // Check collisions between bullets and horizontal obstacles.
       for (let i = horizontalObstacles.length - 1; i >= 0; i--) {
         let hObs = horizontalObstacles[i];
         for (let j = bullets.length - 1; j >= 0; j--) {
           let bullet = bullets[j];
           let dx = hObs.x - bullet.x, dy = hObs.y - bullet.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+          let distance = Math.hypot(dx, dy);
           if (distance < hObs.radius + bullet.radius) {
             createExplosion(hObs.x, hObs.y, 'orange');
             horizontalObstacles.splice(i, 1);
@@ -633,7 +772,7 @@
         }
       }
 
-      // Update and draw explosion particles
+      // Update and draw explosion particles.
       for (let i = explosions.length - 1; i >= 0; i--) {
         let particle = explosions[i];
         particle.update();
@@ -644,8 +783,8 @@
       drawHUD(playTime);
       requestAnimationFrame(gameLoop);
     }
+
     gameLoop();
   </script>
 </body>
 </html>
-
