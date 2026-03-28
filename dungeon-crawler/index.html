@@ -12,61 +12,92 @@
 
   <title>Depths of Shadow</title>
 
-  <!-- Icons -->
-
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <!-- PWA Manifest -->
-
   <link rel="manifest" href="manifest.json">
-
-  <!-- Styles -->
-
   <link rel="stylesheet" href="style.css">
-
-  <!-- React (CDN) -->
-
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-
 </head>
 <body>
-  <!-- Loading screen (hidden once game mounts) -->
   <div id="loader">
     <h1>DEPTHS OF SHADOW</h1>
-    <p>LOADING</p>
-    <div class="spinner"></div>
+    <p id="load-status">LOADING</p>
+    <div class="spinner" id="load-spinner"></div>
+    <p id="load-error" style="color:#c44;font-size:10px;margin-top:16px;max-width:300px;text-align:center;word-break:break-word;font-family:monospace;display:none;"></p>
   </div>
-
-  <!-- Game root -->
 
   <div id="root"></div>
 
-  <!-- Game (pre-compiled, no Babel needed) -->
+  <script>
+    // ─── Error handling: show errors on loading screen ───
+    function showError(msg) {
+      var el = document.getElementById('load-error');
+      var sp = document.getElementById('load-spinner');
+      var st = document.getElementById('load-status');
+      if (el) { el.textContent = msg; el.style.display = 'block'; }
+      if (sp) sp.style.display = 'none';
+      if (st) st.textContent = 'ERROR';
+    }
+    window.onerror = function(msg, src, line) { showError(msg + ' (line ' + line + ')'); };
+    window.addEventListener('unhandledrejection', function(e) { showError('Promise: ' + e.reason); });
+
+    // ─── Clean up any stale service workers and caches ───
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      });
+      if (window.caches) {
+        caches.keys().then(function(keys) {
+          keys.forEach(function(k) { caches.delete(k); });
+        });
+      }
+    }
+  </script>
+
+  <!-- React CDN (synchronous, must load before game.js) -->
+
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+
+  <script>
+    if (typeof React === 'undefined') showError('React failed to load. Check internet connection.');
+    else document.getElementById('load-status').textContent = 'INITIALIZING';
+  </script>
+
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+  <script>
+    if (typeof ReactDOM === 'undefined') showError('ReactDOM failed to load.');
+  </script>
+
+  <!-- Game (pre-compiled JS, no Babel) -->
 
   <script src="game.js"></script>
 
-  <!-- Service Worker registration -->
-
   <script>
-    // Hide loader once game renders
-    const observer = new MutationObserver(() => {
-      if (document.getElementById('root').children.length > 0) {
-        const loader = document.getElementById('loader');
-        if (loader) { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 500); }
-        observer.disconnect();
-      }
-    });
-    observer.observe(document.getElementById('root'), { childList: true });
-
-    // Register service worker for offline play
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+    // ─── Hide loader once game mounts ───
+    var rootEl = document.getElementById('root');
+    if (rootEl && rootEl.children.length > 0) {
+      var ld = document.getElementById('loader');
+      if (ld) { ld.classList.add('hidden'); setTimeout(function() { ld.remove(); }, 500); }
+    } else {
+      var obs = new MutationObserver(function() {
+        if (rootEl.children.length > 0) {
+          var ld = document.getElementById('loader');
+          if (ld) { ld.classList.add('hidden'); setTimeout(function() { ld.remove(); }, 500); }
+          obs.disconnect();
+        }
       });
+      obs.observe(rootEl, { childList: true });
     }
+
+    // ─── Timeout diagnostic: if still loading after 8s ───
+    setTimeout(function() {
+      if (rootEl && rootEl.children.length === 0) {
+        var info = 'React:' + (typeof React !== 'undefined' ? 'OK' : 'FAIL');
+        info += ' ReactDOM:' + (typeof ReactDOM !== 'undefined' ? 'OK' : 'FAIL');
+        info += ' Game:' + (typeof Game !== 'undefined' ? 'OK' : 'FAIL');
+        showError('Timed out. ' + info + '. Try: clear browser cache, then hard refresh.');
+      }
+    }, 8000);
   </script>
 
 </body>
