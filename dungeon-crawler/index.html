@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0c0c14">
+  <meta name="description" content="Depths of Shadow — A 100-floor dungeon crawler">
+
+  <title>Depths of Shadow</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loader">
+    <h1>DEPTHS OF SHADOW</h1>
+    <p id="load-status">LOADING</p>
+    <div class="spinner" id="load-spinner"></div>
+    <p id="load-error" style="color:#c44;font-size:10px;margin-top:16px;max-width:320px;text-align:center;word-break:break-word;font-family:monospace;display:none;"></p>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    function showError(msg) {
+      var el = document.getElementById('load-error');
+      var sp = document.getElementById('load-spinner');
+      var st = document.getElementById('load-status');
+      if (el) { el.textContent = msg; el.style.display = 'block'; }
+      if (sp) sp.style.display = 'none';
+      if (st) st.textContent = 'ERROR';
+    }
+    window.onerror = function(msg, src, line, col, err) {
+      showError(msg + ' @ ' + (src||'').split('/').pop() + ':' + line);
+      return true;
+    };
+
+    // Clean stale service workers and caches
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(r) { r.forEach(function(reg) { reg.unregister(); }); });
+      if (window.caches) caches.keys().then(function(k) { k.forEach(function(n) { caches.delete(n); }); });
+    }
+  </script>
+
+  <!-- React CDN -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+  <script>
+    // Verify React loaded
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      showError('React CDN blocked. Check internet/ad-blockers.');
+    } else {
+      // Dynamically load game.js with error handling and cache-bust
+      var s = document.createElement('script');
+      s.src = 'game.js?v=' + Date.now();
+      s.onerror = function() {
+        showError('game.js failed to load (404). Verify file exists at: ' + window.location.href.replace('index.html','') + 'game.js');
+      };
+      s.onload = function() {
+        if (typeof Game === 'undefined') {
+          showError('game.js loaded but Game not defined. Check browser console for errors.');
+        } else {
+          document.getElementById('load-status').textContent = 'STARTING';
+          try {
+            ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Game));
+          } catch(e) {
+            showError('Mount failed: ' + e.message);
+          }
+        }
+      };
+      document.body.appendChild(s);
+    }
+
+    // Hide loader when game renders
+    var rootEl = document.getElementById('root');
+    var obs = new MutationObserver(function() {
+      if (rootEl.children.length > 0) {
+        var ld = document.getElementById('loader');
+        if (ld) { ld.classList.add('hidden'); setTimeout(function() { ld.remove(); }, 500); }
+        obs.disconnect();
+      }
+    });
+    obs.observe(rootEl, { childList: true });
+  </script>
+</body>
+</html>
