@@ -10,16 +10,17 @@
 <meta name="theme-color" content="#0c0c14">
 <title>Depths of Shadow</title>
 <style>
-html,body,#root{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#0c0c14;touch-action:none;overscroll-behavior:none;-webkit-overflow-scrolling:touch;position:fixed;top:0;left:0;right:0;bottom:0;}
+*{margin:0;padding:0;}
+html,body,#root{width:100%;height:100%;overflow:hidden;background:#0c0c14;position:fixed;top:0;left:0;right:0;bottom:0;touch-action:none;overscroll-behavior:none;}
 </style>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-type="module">
-const {useState,useEffect,useCallback,useRef,useMemo}=React;
+<script type="text/babel" data-presets="env,react">
+const {useState,useEffect,useCallback,useRef,useMemo} = React;
 
 const T={WALL:0,FLOOR:1,STAIRS:2,TRAP:3,CHEST:4,SECRET:5,PIT:6,FIRE:7,FOUNTAIN:8,ICE:10,LAVA:11,WATER:12,VOID:13};
 const MW=36,MH=26,VR=5;
@@ -464,7 +465,8 @@ return(
 </div>);
 }
 
-ReactDOM.createRoot(document.getElementById(“root”)).render(React.createElement(Game));
+const root = ReactDOM.createRoot(document.getElementById(“root”));
+root.render(React.createElement(Game));
 </script>
 
 </body>
