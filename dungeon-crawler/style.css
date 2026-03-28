@@ -1,12 +1,18 @@
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  width:100%;overflow:hidden;background:#0c0c14;
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  touch-action:none;overscroll-behavior:none;
+html{
   height:100%;height:100dvh;
   -webkit-tap-highlight-color:transparent;
 }
-#root{width:100%;height:100%;height:100dvh;}
+body{
+  height:100%;height:100dvh;
+  overflow:hidden;
+  background:#0c0c14;
+  overscroll-behavior:none;
+}
+#root{
+  width:100%;
+  height:100%;height:100dvh;
+}
 
 /* Loading screen */
 #loader{
