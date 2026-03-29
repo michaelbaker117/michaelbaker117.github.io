@@ -4,7 +4,7 @@
   "description": "A 100-floor dungeon crawler",
   "start_url": "./",
   "display": "fullscreen",
-  "orientation": "portrait",
+  "orientation": "landscape-primary",
   "background_color": "#0c0c14",
   "theme_color": "#0c0c14",
   "icons": [

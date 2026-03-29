@@ -6,12 +6,23 @@ html{
 body{
   height:100%;height:100dvh;
   overflow:hidden;
-  background:#0c0c14;
+  background:#000;
   overscroll-behavior:none;
 }
 #root{
   width:100%;
   height:100%;height:100dvh;
+}
+
+/* Force landscape — show message in portrait */
+@media(orientation:portrait){
+  #root::after{
+    content:"Rotate your device to landscape";
+    position:fixed;inset:0;background:#0c0c14;
+    color:#d4a843;display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-family:'Cinzel',serif;letter-spacing:3px;
+    text-align:center;padding:40px;z-index:99999;
+  }
 }
 
 /* Loading screen */
