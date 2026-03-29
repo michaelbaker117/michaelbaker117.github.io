@@ -378,15 +378,10 @@ const tR = (tile, fc, vis, inFov) => {
   const m = { [T.WALL]: { ch: "\u2588", color: fc.wall }, [T.FLOOR]: { ch: "\xB7", color: fc.floor + "99" }, [T.STAIRS]: { ch: "\u25BC", color: "#0e7", g: "0 0 4px #0e75" }, [T.TRAP]: { ch: "\xB7", color: fc.floor + "99" }, [T.CHEST]: { ch: "\u25C6", color: "#fa0", g: "0 0 4px #fa04" }, [T.SECRET]: { ch: "\u2588", color: fc.wall }, [T.PIT]: { ch: "\u25CB", color: "#500" }, [T.FIRE]: { ch: "\u2248", color: "#f40", g: "0 0 3px #f404" }, [T.FOUNTAIN]: { ch: "\u2666", color: "#48f", g: "0 0 4px #48f4" }, [T.ICE]: { ch: "\u25AA", color: "#8df" }, [T.LAVA]: { ch: "\u2248", color: "#f30", g: "0 0 3px #f304" }, [T.WATER]: { ch: "~", color: "#26a" }, [T.VOID]: { ch: "\u221E", color: "#84c", g: "0 0 3px #84c4" }, [T.SHOP]: { ch: "$", color: "#fa0", g: "0 0 5px #fa06" } };
   return { ...m[tile] || { ch: "?", color: "#333" }, o };
 };
-function VJoystick({ accent, onDir, combatActive }) {
-  const ref = useRef(null);
-  const center = useRef({ x: 0, y: 0 });
-  const activeRef = useRef(false);
-  const [knob, setKnob] = useState({ x: 0, y: 0 });
-  const [dir, setDir] = useState({ dx: 0, dy: 0 });
-  const dirRef = useRef({ dx: 0, dy: 0 });
+function DPad({ accent, onDir, combatActive }) {
   const timerRef = useRef(null);
   const onDirRef = useRef(onDir);
+  const [active, setActive] = useState(null);
   useEffect(() => {
     onDirRef.current = onDir;
   }, [onDir]);
@@ -399,83 +394,52 @@ function VJoystick({ accent, onDir, combatActive }) {
   useEffect(() => {
     if (combatActive) {
       stopTimer();
-      activeRef.current = false;
-      setKnob({ x: 0, y: 0 });
-      setDir({ dx: 0, dy: 0 });
-      dirRef.current = { dx: 0, dy: 0 };
+      setActive(null);
     }
   }, [combatActive, stopTimer]);
-  const handleStart = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    center.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-    activeRef.current = true;
-  }, []);
-  const handleMove = useCallback((e) => {
-    if (!activeRef.current) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const touch = e.touches ? e.touches[0] : e;
-    const dx = touch.clientX - center.current.x;
-    const dy = touch.clientY - center.current.y;
-    const maxR = 40;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const cl = dist > maxR ? { x: dx / dist * maxR, y: dy / dist * maxR } : { x: dx, y: dy };
-    setKnob(cl);
-    if (dist < 12) {
-      dirRef.current = { dx: 0, dy: 0 };
-      setDir({ dx: 0, dy: 0 });
-      stopTimer();
-      return;
-    }
-    const angle = Math.atan2(dy, dx);
-    let nd;
-    if (angle > -Math.PI / 4 && angle <= Math.PI / 4) nd = { dx: 1, dy: 0 };
-    else if (angle > Math.PI / 4 && angle <= 3 * Math.PI / 4) nd = { dx: 0, dy: 1 };
-    else if (angle > -3 * Math.PI / 4 && angle <= -Math.PI / 4) nd = { dx: 0, dy: -1 };
-    else nd = { dx: -1, dy: 0 };
-    if (nd.dx !== dirRef.current.dx || nd.dy !== dirRef.current.dy) {
-      dirRef.current = nd;
-      setDir(nd);
-      stopTimer();
-      onDirRef.current?.(nd.dx, nd.dy);
-      timerRef.current = setInterval(() => {
-        onDirRef.current?.(dirRef.current.dx, dirRef.current.dy);
-      }, 170);
-    }
-  }, [stopTimer]);
-  const handleEnd = useCallback((e) => {
-    if (e) e.stopPropagation();
-    activeRef.current = false;
-    setKnob({ x: 0, y: 0 });
-    setDir({ dx: 0, dy: 0 });
-    dirRef.current = { dx: 0, dy: 0 };
-    stopTimer();
-  }, [stopTimer]);
   useEffect(() => () => stopTimer(), [stopTimer]);
-  return /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      ref,
-      style: { width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle,rgba(25,25,40,.95),rgba(14,14,22,.98))", border: `2px solid ${accent}22`, position: "relative", touchAction: "none", boxShadow: `inset 0 0 20px rgba(0,0,0,.4),0 0 12px ${accent}11`, flexShrink: 0 },
-      onTouchStart: handleStart,
-      onTouchMove: handleMove,
-      onTouchEnd: handleEnd,
-      onTouchCancel: handleEnd,
-      onMouseDown: handleStart,
-      onMouseMove: handleMove,
-      onMouseUp: handleEnd,
-      onMouseLeave: handleEnd
-    },
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", fontSize: 8, color: dir.dy === -1 ? accent : "#333", transition: "color .1s" } }, "\u25B2"),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", fontSize: 8, color: dir.dy === 1 ? accent : "#333", transition: "color .1s" } }, "\u25BC"),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", fontSize: 8, color: dir.dx === -1 ? accent : "#333", transition: "color .1s" } }, "\u25C0"),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", fontSize: 8, color: dir.dx === 1 ? accent : "#333", transition: "color .1s" } }, "\u25B6"),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: "50%", left: "50%", width: 44, height: 44, borderRadius: "50%", background: `radial-gradient(circle at 40% 36%,${accent}cc,${accent}66,${accent}33)`, border: `1.5px solid ${accent}88`, transform: `translate(calc(-50% + ${knob.x}px),calc(-50% + ${knob.y}px))`, transition: activeRef.current ? "none" : "transform .2s ease-out", boxShadow: `0 0 ${knob.x || knob.y ? 12 : 6}px ${accent}${knob.x || knob.y ? "66" : "33"},inset 0 -2px 4px rgba(0,0,0,.3)` } }),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: "50%", left: "50%", width: 48, height: 48, borderRadius: "50%", border: `1px dashed ${accent}18`, transform: "translate(-50%,-50%)", pointerEvents: "none" } })
-  );
+  const startMove = useCallback((dx, dy, dir) => {
+    stopTimer();
+    setActive(dir);
+    onDirRef.current?.(dx, dy);
+    timerRef.current = setInterval(() => {
+      onDirRef.current?.(dx, dy);
+    }, 170);
+  }, [stopTimer]);
+  const endMove = useCallback((e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    stopTimer();
+    setActive(null);
+  }, [stopTimer]);
+  const bs = 42;
+  const btnBase = { width: bs, height: bs, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, cursor: "pointer", touchAction: "none", userSelect: "none", WebkitUserSelect: "none", border: "none", outline: "none" };
+  const arrow = (dx, dy, dir, ch) => {
+    const isActive = active === dir;
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        style: { ...btnBase, background: isActive ? `${accent}22` : "rgba(20,20,30,.5)", color: isActive ? accent : "#555", textShadow: isActive ? `0 0 8px ${accent}66` : "none", border: `1px solid ${isActive ? accent + "55" : "#ffffff11"}` },
+        onTouchStart: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          startMove(dx, dy, dir);
+        },
+        onTouchEnd: endMove,
+        onTouchCancel: endMove,
+        onMouseDown: (e) => {
+          e.preventDefault();
+          startMove(dx, dy, dir);
+        },
+        onMouseUp: endMove,
+        onMouseLeave: endMove
+      },
+      ch
+    );
+  };
+  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: `${bs}px ${bs}px ${bs}px`, gridTemplateRows: `${bs}px ${bs}px ${bs}px`, gap: 3 } }, /* @__PURE__ */ React.createElement("div", null), arrow(0, -1, "up", "\u25B2"), /* @__PURE__ */ React.createElement("div", null), arrow(-1, 0, "left", "\u25C0"), /* @__PURE__ */ React.createElement("div", { style: { width: bs, height: bs, borderRadius: 10, background: "rgba(14,14,22,.3)", border: `1px solid ${accent}15`, display: "flex", alignItems: "center", justifyContent: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { width: 8, height: 8, borderRadius: "50%", background: `radial-gradient(circle,${accent}88,${accent}33)`, boxShadow: `0 0 4px ${accent}44` } })), arrow(1, 0, "right", "\u25B6"), /* @__PURE__ */ React.createElement("div", null), arrow(0, 1, "down", "\u25BC"), /* @__PURE__ */ React.createElement("div", null));
 }
 function Game() {
   const [screen, setScreen] = useState("title");
@@ -1124,7 +1088,7 @@ function Game() {
       miniDots.push(/* @__PURE__ */ React.createElement("div", { key: `${x}-${y}`, style: { position: "absolute", left: x * mmS, top: y * mmS, width: mmS, height: mmS, background: c } }));
     }
   }
-  return /* @__PURE__ */ React.createElement("div", { style: { width: "100vw", height: "100dvh", overflow: "hidden", background: fc.bg, color: "#c8c8d0", fontFamily: "'JetBrains Mono',monospace", position: "relative", userSelect: "none" } }, /* @__PURE__ */ React.createElement("style", null, CSS, `:root{--ac:${fc.accent};}`), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", animation: shaking ? "shake .2s" : inSanc ? "sancP 4s infinite" : "none" } }, /* @__PURE__ */ React.createElement("table", { style: { borderCollapse: "collapse" } }, /* @__PURE__ */ React.createElement("tbody", null, mapRows))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? 16 : 6, left: isDesk ? 16 : 6, zIndex: 10, display: "flex", flexDirection: "column", gap: isDesk ? Math.round(5 * uiS) : 3, width: isDesk ? Math.round(180 * uiS) : 160, pointerEvents: "none" } }, /* @__PURE__ */ React.createElement(Bar, { cur: player.hp, max: player.maxHp, color: "#c33", label: "HP", h: isDesk ? Math.round(12 * uiS) : 8 }), /* @__PURE__ */ React.createElement(Bar, { cur: player.mp, max: player.maxMp, color: "#36c", label: "MP", h: isDesk ? Math.round(12 * uiS) : 8 }), /* @__PURE__ */ React.createElement(Bar, { cur: player.xp, max: xpFor(player.level), color: "#74a", label: "XP", h: isDesk ? Math.round(10 * uiS) : 6 }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: isDesk ? Math.round(10 * uiS) : 8, color: "#888", paddingTop: 1 } }, /* @__PURE__ */ React.createElement("span", null, fc.icon, " F", player.floor, " Lv", player.level), /* @__PURE__ */ React.createElement("span", null, "\u{1F4B0}", player.gold))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? 16 : 6, right: isDesk ? 16 : 6, zIndex: 20, display: "flex", flexDirection: "column", gap: isDesk ? 6 : 4, alignItems: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => setMenu((m) => m ? null : "open"), style: { width: isDesk ? Math.round(40 * uiS) : 42, height: isDesk ? Math.round(40 * uiS) : 42, borderRadius: 10, background: "rgba(14,14,22,.65)", border: `1px solid ${fc.accent}33`, color: menu ? fc.accent : "#888", fontSize: isDesk ? Math.round(18 * uiS) : 18, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", backdropFilter: "blur(4px)", touchAction: "manipulation", position: "relative" } }, menu ? "\u2715" : "\u2630", hasRec && !menu && /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", top: 3, right: 3, width: 7, height: 7, borderRadius: "50%", background: "#4c6", animation: "recB 1.5s infinite" } })), menu === "open" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: isDesk ? 5 : 3, animation: "fadeUp .15s" } }, [["stats", "\u{1F4CA} Stats"], ["inv", "\u{1F392} Inventory"], ["obj", "\u{1F4DC} Quests"], ["settings", "\u2699\uFE0F Settings"]].map(([k, lb]) => /* @__PURE__ */ React.createElement("button", { key: k, onClick: () => setMenu(k), style: { padding: isDesk ? `${Math.round(10 * uiS)}px ${Math.round(16 * uiS)}px` : "8px 14px", borderRadius: 8, background: "rgba(14,14,22,.8)", border: "1px solid #2a2a3a", color: "#aaa", fontSize: isDesk ? Math.round(12 * uiS) : 11, cursor: "pointer", backdropFilter: "blur(6px)", textAlign: "left", fontFamily: "'JetBrains Mono',monospace", touchAction: "manipulation", whiteSpace: "nowrap" } }, lb)))), settings.minimap && !menu && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? Math.round(56 * uiS) : 54, right: isDesk ? 16 : 6, width: MW * mmS + 2, height: MH * mmS + 2, background: "rgba(6,6,12,.55)", border: `1px solid ${fc.wall}33`, borderRadius: 4, overflow: "hidden", zIndex: 8 } }, miniDots), inSanc && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", padding: "3px 12px", background: "rgba(30,60,80,.35)", border: "1px solid #48a3", borderRadius: 8, fontSize: 9, color: "#6bd", zIndex: 10, backdropFilter: "blur(4px)" } }, "\u{1F3D5}\uFE0F SANCTUARY"), !inSanc && bossAlive && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", padding: "3px 10px", background: "rgba(160,20,50,.25)", border: "1px solid #8233", borderRadius: 8, fontSize: 9, color: "#d46", zIndex: 10, backdropFilter: "blur(4px)" } }, player.floor % 10 === 0 ? "\u{1F451} MEGA BOSS" : "\u{1F479} BOSS"), /* @__PURE__ */ React.createElement("div", { ref: logRef, className: "scr", style: { position: "absolute", bottom: isDesk ? 16 : 6, left: isDesk ? 16 : 6, maxWidth: isDesk ? Math.round(280 * uiS) : 240, maxHeight: isDesk ? Math.round(50 * uiS) : 36, overflowY: "auto", zIndex: 8, pointerEvents: "none" } }, eLog.slice(isDesk ? -5 : -3).map((e, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { fontSize: isDesk ? Math.round(10 * uiS) : 8, color: logCol(e.ty), opacity: i === Math.min(eLog.length - 1, isDesk ? 4 : 2) ? 1 : 0.4, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", textShadow: "0 1px 4px #000" } }, e.m))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: isDesk ? Math.round(68 * uiS) : 44, left: isDesk ? 16 : 6, fontSize: isDesk ? Math.round(9 * uiS) : 7, color: "#444", zIndex: 7, pointerEvents: "none", textShadow: "0 1px 3px #000" } }, inSanc ? "Sanctuary" : fc.name), !isDesk && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 8, right: 8, zIndex: 15 } }, /* @__PURE__ */ React.createElement(VJoystick, { accent: fc.accent, onDir: move, combatActive: !!combat || !!shop })), menu && menu !== "open" && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 50, display: "flex" }, onClick: () => setMenu(null) }, /* @__PURE__ */ React.createElement("div", { className: "scr", style: { width: isDesk ? 400 : 300, maxWidth: isDesk ? "40vw" : "75vw", height: "100%", background: "rgba(12,12,20,.95)", borderRight: `1px solid ${fc.wall}`, overflowY: "auto", padding: isDesk ? "24px 20px" : "18px 14px", backdropFilter: "blur(10px)", animation: "slideRight .2s ease" }, onClick: (e) => e.stopPropagation() }, menu === "stats" && (() => {
+  return /* @__PURE__ */ React.createElement("div", { style: { width: "100vw", height: "100dvh", overflow: "hidden", background: fc.bg, color: "#c8c8d0", fontFamily: "'JetBrains Mono',monospace", position: "relative", userSelect: "none" } }, /* @__PURE__ */ React.createElement("style", null, CSS, `:root{--ac:${fc.accent};}`), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", animation: shaking ? "shake .2s" : inSanc ? "sancP 4s infinite" : "none" } }, /* @__PURE__ */ React.createElement("table", { style: { borderCollapse: "collapse" } }, /* @__PURE__ */ React.createElement("tbody", null, mapRows))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? 16 : 6, left: isDesk ? 16 : 6, zIndex: 10, display: "flex", flexDirection: "column", gap: isDesk ? Math.round(5 * uiS) : 3, width: isDesk ? Math.round(180 * uiS) : 160, pointerEvents: "none" } }, /* @__PURE__ */ React.createElement(Bar, { cur: player.hp, max: player.maxHp, color: "#c33", label: "HP", h: isDesk ? Math.round(12 * uiS) : 8 }), /* @__PURE__ */ React.createElement(Bar, { cur: player.mp, max: player.maxMp, color: "#36c", label: "MP", h: isDesk ? Math.round(12 * uiS) : 8 }), /* @__PURE__ */ React.createElement(Bar, { cur: player.xp, max: xpFor(player.level), color: "#74a", label: "XP", h: isDesk ? Math.round(10 * uiS) : 6 }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: isDesk ? Math.round(10 * uiS) : 8, color: "#888", paddingTop: 1 } }, /* @__PURE__ */ React.createElement("span", null, fc.icon, " F", player.floor, " Lv", player.level), /* @__PURE__ */ React.createElement("span", null, "\u{1F4B0}", player.gold))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? 16 : 6, right: isDesk ? 16 : 6, zIndex: 20, display: "flex", flexDirection: "column", gap: isDesk ? 6 : 4, alignItems: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => setMenu((m) => m ? null : "open"), style: { width: isDesk ? Math.round(40 * uiS) : 42, height: isDesk ? Math.round(40 * uiS) : 42, borderRadius: 10, background: "rgba(14,14,22,.65)", border: `1px solid ${fc.accent}33`, color: menu ? fc.accent : "#888", fontSize: isDesk ? Math.round(18 * uiS) : 18, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", backdropFilter: "blur(4px)", touchAction: "manipulation", position: "relative" } }, menu ? "\u2715" : "\u2630", hasRec && !menu && /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", top: 3, right: 3, width: 7, height: 7, borderRadius: "50%", background: "#4c6", animation: "recB 1.5s infinite" } })), menu === "open" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: isDesk ? 5 : 3, animation: "fadeUp .15s" } }, [["stats", "\u{1F4CA} Stats"], ["inv", "\u{1F392} Inventory"], ["obj", "\u{1F4DC} Quests"], ["settings", "\u2699\uFE0F Settings"]].map(([k, lb]) => /* @__PURE__ */ React.createElement("button", { key: k, onClick: () => setMenu(k), style: { padding: isDesk ? `${Math.round(10 * uiS)}px ${Math.round(16 * uiS)}px` : "8px 14px", borderRadius: 8, background: "rgba(14,14,22,.8)", border: "1px solid #2a2a3a", color: "#aaa", fontSize: isDesk ? Math.round(12 * uiS) : 11, cursor: "pointer", backdropFilter: "blur(6px)", textAlign: "left", fontFamily: "'JetBrains Mono',monospace", touchAction: "manipulation", whiteSpace: "nowrap" } }, lb)))), settings.minimap && !menu && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: isDesk ? Math.round(56 * uiS) : 54, right: isDesk ? 16 : 6, width: MW * mmS + 2, height: MH * mmS + 2, background: "rgba(6,6,12,.55)", border: `1px solid ${fc.wall}33`, borderRadius: 4, overflow: "hidden", zIndex: 8 } }, miniDots), inSanc && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", padding: "3px 12px", background: "rgba(30,60,80,.35)", border: "1px solid #48a3", borderRadius: 8, fontSize: 9, color: "#6bd", zIndex: 10, backdropFilter: "blur(4px)" } }, "\u{1F3D5}\uFE0F SANCTUARY"), !inSanc && bossAlive && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", padding: "3px 10px", background: "rgba(160,20,50,.25)", border: "1px solid #8233", borderRadius: 8, fontSize: 9, color: "#d46", zIndex: 10, backdropFilter: "blur(4px)" } }, player.floor % 10 === 0 ? "\u{1F451} MEGA BOSS" : "\u{1F479} BOSS"), /* @__PURE__ */ React.createElement("div", { ref: logRef, className: "scr", style: { position: "absolute", bottom: isDesk ? 16 : 140, left: isDesk ? 16 : 6, maxWidth: isDesk ? Math.round(280 * uiS) : 180, maxHeight: isDesk ? Math.round(50 * uiS) : 32, overflowY: "auto", zIndex: 8, pointerEvents: "none" } }, eLog.slice(isDesk ? -5 : -3).map((e, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { fontSize: isDesk ? Math.round(10 * uiS) : 7, color: logCol(e.ty), opacity: i === Math.min(eLog.length - 1, isDesk ? 4 : 2) ? 1 : 0.4, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", textShadow: "0 1px 4px #000" } }, e.m))), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: isDesk ? Math.round(68 * uiS) : 174, left: isDesk ? 16 : 6, fontSize: isDesk ? Math.round(9 * uiS) : 7, color: "#444", zIndex: 7, pointerEvents: "none", textShadow: "0 1px 3px #000" } }, inSanc ? "Sanctuary" : fc.name), !isDesk && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 6, right: 6, zIndex: 15 } }, /* @__PURE__ */ React.createElement(DPad, { accent: fc.accent, onDir: move, combatActive: !!combat || !!shop })), menu && menu !== "open" && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 50, display: "flex" }, onClick: () => setMenu(null) }, /* @__PURE__ */ React.createElement("div", { className: "scr", style: { width: isDesk ? 400 : 300, maxWidth: isDesk ? "40vw" : "75vw", height: "100%", background: "rgba(12,12,20,.95)", borderRight: `1px solid ${fc.wall}`, overflowY: "auto", padding: isDesk ? "24px 20px" : "18px 14px", backdropFilter: "blur(10px)", animation: "slideRight .2s ease" }, onClick: (e) => e.stopPropagation() }, menu === "stats" && (() => {
     const eqW = player.equipped.weapon;
     const eqA = player.equipped.armor;
     const pct = Math.round(player.xp / xpFor(player.level) * 100);
